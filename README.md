@@ -8,6 +8,7 @@ It uses the same API that the offical BBVA mobile app uses. Requieres the same u
 
     $ git clone git@bitbucket.org:diacode/bbva.git
     $ cd bbva
+    $ bundle
     $ rake install
 
 ## Usage
