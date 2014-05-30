@@ -19,11 +19,16 @@ module BBVA
     desc "bbva transactions", "get account's transactions for last 24 months and export them to CSV and YML"
     option :user, default: ENV['BBVA_USER']
     option :password, default: ENV['BBVA_PASSWORD']
+    option :only_payments, :type => :boolean
     def transactions
       @bbva_user = options[:user]
       @bbva_password = options[:password]
 
-      transactions = bbva_api.get_transactions
+      if options[:only_payments]
+        transactions = bbva_api.get_transactions(show_income: false, show_payments: true)
+      else
+        transactions = bbva_api.get_transactions
+      end
       puts "Number of transactions fetched: #{transactions.count}"
       
       File.open("#{output_path}/transactions.yml", "wb") do |f|     

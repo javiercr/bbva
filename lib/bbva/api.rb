@@ -31,7 +31,7 @@ module BBVA
       return response.body['MSG_S']['LISTADOCTA']['E']['SALDO']
     end
 
-    def get_transactions
+    def get_transactions(show_income: true, show_payments: true)
       # we need to call get_balance before getting the transactions, 
       # otherwise the API throws an error
       get_balance 
@@ -43,7 +43,13 @@ module BBVA
       loop do
         response = @connection.post do |req|
           req.url '/ENPP/enpp_mult_web_frontiphone_01/OperacionCBTFServlet?proceso=TLNMCuentasPr&operacion=TLNMMovimientosCuentasOp&accion=relacionMvtsEstr'
-          content = render_erb(template_path('transactions'), {fecha_inicio: start_date, primera_invocacion: (i == 0)})
+          params = {
+            fecha_inicio: start_date, 
+            primera_invocacion: (i == 0).to_s,
+            filtro_ingresos: show_income.to_s,
+            filtro_pagos: show_payments.to_s
+          }
+          content = render_erb(template_path('transactions'), params)
           req.body = "xmlEntrada=" + URI.escape(content)
           req.headers['Content-type'] = 'application/x-www-form-urlencoded; charset=utf-8'
           req.headers['Connection'] = 'Keep-Alive'
