@@ -1,6 +1,6 @@
 # BBVA
 
-Ruby gem with command line tool to retrieve BBVA bank accounts balance and transactions.
+Ruby gem with command line tool for retrieving BBVA bank accounts balance and transactions.
 
 It uses the same API that the offical BBVA mobile app uses. Requieres the same user and password that is used for accessing http://bbva.es
 
