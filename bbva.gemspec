@@ -22,9 +22,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
 
   spec.add_dependency 'thor'
-  spec.add_dependency 'faraday'
-  spec.add_dependency 'faraday_middleware'
-  spec.add_dependency 'faraday-cookie_jar'
+  spec.add_dependency 'faraday', '0.8.9'
+  spec.add_dependency 'faraday_middleware', '0.9.0'
+  spec.add_dependency 'faraday-cookie_jar', '0.0.4'
   spec.add_dependency 'byebug'
-  spec.add_dependency 'multi_xml'
+  spec.add_dependency 'multi_xml', '0.5.5'
 end
