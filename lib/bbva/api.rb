@@ -31,13 +31,16 @@ module BBVA
       return response.body['MSG_S']['LISTADOCTA']['E']['SALDO']
     end
 
-    def get_transactions(show_income: true, show_payments: true)
-      # we need to call get_balance before getting the transactions, 
+    def get_transactions(options = {})
+      start_date    = format_date(options.fetch(:start_date))
+      end_date      = format_date(options.fetch(:end_date))
+      show_income   = options.fetch(:show_income, true)
+      show_payments = options.fetch(:show_payments, true)
+
+      # We need to call get_balance before getting the transactions, 
       # otherwise the API throws an error
       get_balance 
 
-      # We can only retrieve transactions for the last 24 months
-      start_date = (Date.today - 365*2).strftime "%Y%m%d"
       transactions = []
       i = 0
       loop do
@@ -45,6 +48,7 @@ module BBVA
           req.url '/ENPP/enpp_mult_web_frontiphone_01/OperacionCBTFServlet?proceso=TLNMCuentasPr&operacion=TLNMMovimientosCuentasOp&accion=relacionMvtsEstr'
           params = {
             fecha_inicio: start_date, 
+            fecha_fin: end_date, 
             primera_invocacion: (i == 0).to_s,
             filtro_ingresos: show_income.to_s,
             filtro_pagos: show_payments.to_s
@@ -104,6 +108,11 @@ module BBVA
 
     def render_erb(template_file, locals)
       ERB.new(File.read(template_file)).result(OpenStruct.new(locals).instance_eval { binding })
+    end
+
+    # Format date for the API
+    def format_date(date)
+      date.strftime "%Y%m%d"
     end
   end
 end

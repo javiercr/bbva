@@ -16,19 +16,25 @@ module BBVA
       puts "Balance: #{balance} €"
     end
 
-    desc "bbva transactions", "get account's transactions for last 24 months and export them to CSV and YML"
+    desc "bbva transactions", "get account's transactions and export them to CSV and YML"
     option :user, default: ENV['BBVA_USER']
     option :password, default: ENV['BBVA_PASSWORD']
+    option :days, default: 730 # 24 months, maximum permited by the API
     option :only_payments, :type => :boolean
     def transactions
       @bbva_user = options[:user]
       @bbva_password = options[:password]
+      @start_date = Date.today - options[:days].to_i + 1
+      @end_date = Date.today
+
+      args = { start_date: @start_date, end_date: @end_date }
 
       if options[:only_payments]
-        transactions = bbva_api.get_transactions(show_income: false, show_payments: true)
-      else
-        transactions = bbva_api.get_transactions
+        args.merge!({ show_income: false, show_payments: true })
       end
+
+      puts "Fetching transactions from: #{@start_date} to #{@end_date}"
+      transactions = bbva_api.get_transactions(args)
       puts "Number of transactions fetched: #{transactions.count}"
       
       File.open("#{output_path}/transactions.yml", "wb") do |f|     

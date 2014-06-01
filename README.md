@@ -25,9 +25,13 @@ Retrieve balance account
 
     $ bbva balance --user YOUR_BBVA_USER --password YOUR_BBVA_PASSWORD
 
-Retrieve transactions for the last 24 months and expor them to CSV and YAML (in the working directory)
+Retrieve transactions for the last 24 months (maximum allowed by the API) and export them to CSV and YAML (in the working directory)
 
     $ bbva transactions --user YOUR_BBVA_USER --password YOUR_BBVA_PASSWORD
+
+Retrieve transactions for the last 5 days (including today) and export them to CSV and YAML (in the working directory)
+
+    $ bbva transactions --user YOUR_BBVA_USER --password YOUR_BBVA_PASSWORD --days 5
 
 If you don't want to pass your user and password everytime you can define them in your .bash_profile
 
