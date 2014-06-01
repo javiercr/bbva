@@ -19,7 +19,7 @@ This gem has been tested only with one BBVA user account (which is a company ban
     $ bundle
     $ rake install
 
-## Usage
+## Usage from terminal
 
 Retrieve balance account
 
@@ -37,6 +37,27 @@ If you don't want to pass your user and password everytime you can define them i
 
     export BBVA_USER=YOUR_BBVA_USER
     export BBVA_PASSWORD=YOUR_BBVA_USER
+    
+## Usage from Ruby
+
+You can also use this gem from your own app as library. To do so first you must initialize a BBVVA:API object
+
+```ruby
+require 'bbva'
+@api = BBVA::API.new(YOUR_BBVA_USER, YOUR_BBVA_PASSWORD)
+```
+
+Now you can fetch your balance:
+
+```ruby
+@api.get_balance
+```
+
+Or your transactions (you must pass the range of dates)
+
+```ruby
+@api.get_transactions(start_date: (Date.today - 24.months), end_date: Date.today)
+```
 
 ## Contributing
 
