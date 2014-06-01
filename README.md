@@ -40,7 +40,7 @@ If you don't want to pass your user and password everytime you can define them i
     
 ## Usage from Ruby
 
-You can also use this gem from your own app as library. To do so first you must initialize a BBVVA:API object
+You can also use this gem from your own app as library. To do so first you must initialize a BBVA::API object
 
 ```ruby
 require 'bbva'
