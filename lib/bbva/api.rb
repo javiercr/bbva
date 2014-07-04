@@ -61,7 +61,17 @@ module BBVA
           req.headers['Accept'] = 'application/xml,text/xml'
         end
         break if response.body['MSG_S']['LISTADOMOVSCTA'].nil?
-        transactions = transactions | response.body['MSG_S']['LISTADOMOVSCTA']['E']
+
+        results = response.body['MSG_S']['LISTADOMOVSCTA']['E']
+                
+        transactions = if results.nil?
+          transactions
+        elsif results.is_a?(Hash)
+          [results]
+        else
+          results
+        end
+        
         i += 1
       end
       transactions
