@@ -21,7 +21,7 @@ module BBVA
     end
 
     def get_balance
-      puts 'BBA::API get_balance'.yellow if @debug
+      puts 'BBVA::API get_balance'.yellow if @debug
       
       response = @connection.post do |req|
         req.url '/ENPP/enpp_mult_web_frontiphone_01/OperacionCBTFServlet?proceso=TLNMCuentasPr&operacion=TLNMListadoCuentasOp&accion=relacionCtas'
@@ -84,7 +84,7 @@ module BBVA
     end
 
     def get_account_data
-      puts 'BBA::API get_account_data'.yellow if @debug
+      puts 'BBVA::API get_account_data'.yellow if @debug
 
       response = @connection.get do |req|
         req.url '/ENPP/enpp_mult_web_frontiphone_01/LogonIphoneServlet?action=indexIPHONE&version=3.5&'
@@ -99,7 +99,7 @@ module BBVA
     private 
 
     def login
-      puts 'BBA::API login'.yellow if @debug
+      puts 'BBVA::API login'.yellow if @debug
       
       response = @connection.post '/DFAUTH/slod/DFServletXML', {
         origen: 'enpp',
