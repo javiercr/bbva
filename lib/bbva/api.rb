@@ -2,6 +2,7 @@ require 'uri'
 require 'erb'
 require 'ostruct'
 require 'colorize'
+require 'pp'
 require 'faraday'
 require 'faraday'
 require 'faraday-cookie_jar'
@@ -32,7 +33,7 @@ module BBVA
         req.headers['Accept'] = 'application/xml,text/xml'
       end
       
-      puts response.body.to_s.green if @debug
+      pp response.body if @debug
       
       response.body['MSG_S']['LISTADOCTA']['E']['SALDO']
     end
@@ -90,7 +91,7 @@ module BBVA
         req.url '/ENPP/enpp_mult_web_frontiphone_01/LogonIphoneServlet?action=indexIPHONE&version=3.5&'
       end
       
-      puts response.body.to_s.green if @debug
+      pp response.body if @debug
       
       response.body
     end
@@ -110,7 +111,7 @@ module BBVA
         idioma: 'CAS'
       }
 
-      puts response.body.green if @debug
+      puts response.body if @debug
       
       response
     end
