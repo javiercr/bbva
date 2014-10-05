@@ -9,9 +9,11 @@ module BBVA
     desc "bbva balance", "get account's balance"
     option :user, default: ENV['BBVA_USER']
     option :password, default: ENV['BBVA_PASSWORD']
+    option :debug, default: false
     def balance
       @bbva_user = options[:user]
       @bbva_password = options[:password]
+      @debug = options[:debug]
       balance = bbva_api.get_balance
       puts "Balance: #{balance} €"
     end
@@ -59,7 +61,7 @@ module BBVA
     private
 
     def bbva_api
-      @bbva_api ||= BBVA::API.new(@bbva_user, @bbva_password)
+      @bbva_api ||= BBVA::API.new(@bbva_user, @bbva_password, debug: @debug)
     end
 
     def output_path

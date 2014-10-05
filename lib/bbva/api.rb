@@ -1,6 +1,7 @@
 require 'uri'
 require 'erb'
 require 'ostruct'
+require 'colorize'
 require 'faraday'
 require 'faraday'
 require 'faraday-cookie_jar'
@@ -20,6 +21,8 @@ module BBVA
     end
 
     def get_balance
+      puts 'BBA::API get_balance'.yellow if @debug
+      
       response = @connection.post do |req|
         req.url '/ENPP/enpp_mult_web_frontiphone_01/OperacionCBTFServlet?proceso=TLNMCuentasPr&operacion=TLNMListadoCuentasOp&accion=relacionCtas'
         req.body = "xmlEntrada=%3CMSG-E%3E%3C%2FMSG-E%3E"
@@ -28,7 +31,10 @@ module BBVA
         req.headers['Cookie2'] = '$Version=1'
         req.headers['Accept'] = 'application/xml,text/xml'
       end
-      return response.body['MSG_S']['LISTADOCTA']['E']['SALDO']
+      
+      puts response.body.to_s.green if @debug
+      
+      response.body['MSG_S']['LISTADOCTA']['E']['SALDO']
     end
 
     def get_transactions(options = {})
@@ -78,16 +84,23 @@ module BBVA
     end
 
     def get_account_data
+      puts 'BBA::API get_account_data'.yellow if @debug
+
       response = @connection.get do |req|
         req.url '/ENPP/enpp_mult_web_frontiphone_01/LogonIphoneServlet?action=indexIPHONE&version=3.5&'
       end
-      return response.body
+      
+      puts response.body.to_s.green if @debug
+      
+      response.body
     end
 
 
     private 
 
     def login
+      puts 'BBA::API login'.yellow if @debug
+      
       response = @connection.post '/DFAUTH/slod/DFServletXML', {
         origen: 'enpp',
         eai_user: @user,
@@ -96,14 +109,15 @@ module BBVA
         eai_tipoCP: 'up',
         idioma: 'CAS'
       }
+
+      puts response.body.green if @debug
+      
+      response
     end
 
     def create_connection
-      # OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
-      # conn = Faraday.new(url: 'https://bancamovil.grupobbva.com', proxy: 'http://localhost:8888') do |faraday|
-
       @connection = Faraday.new(url: API_ENDPOINT) do |faraday|
-        faraday.response :logger if @debug
+        # faraday.response :logger if @debug
         faraday.request :url_encoded
         faraday.use FaradayMiddleware::ParseXml,  :content_type => /\bxml$/
         faraday.use :cookie_jar

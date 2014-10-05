@@ -26,5 +26,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'faraday_middleware', '0.9.0'
   spec.add_dependency 'faraday-cookie_jar', '0.0.4'
   spec.add_dependency 'byebug'
+  spec.add_dependency 'colorize'
   spec.add_dependency 'multi_xml', '0.5.5'
 end
