@@ -105,6 +105,8 @@ module BBVA
     # 2) A DNI number, this needs to transformed before it get passed to the API
     #    Example: "49021740T" will become "0019-049021740T"
     def format_user(user)
+      user.upcase!
+      
       if user.match /^[0-9]{8}[A-Z]$/ 
         # it's a DNI
         "0019-0#{user}"
