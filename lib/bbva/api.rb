@@ -13,9 +13,10 @@ module BBVA
     API_ENDPOINT = "https://bancamovil.grupobbva.com"
 
     def initialize(user, password, debug: false)
-      @user = user
+      @user = format_user(user)
       @password = password
       @debug = debug
+
       create_connection
       login
       get_account_data # we need to call this before anything else
@@ -98,6 +99,19 @@ module BBVA
 
 
     private 
+
+    # As far as we know there are two types of identifiers BBVA uses
+    # 1) A number of 7 characters that gets passed to the API as it is
+    # 2) A DNI number, this needs to transformed before it get passed to the API
+    #    Example: "49021740T" will become "0019-049021740T"
+    def format_user(user)
+      if user.match /^[0-9]{8}[A-Z]$/ 
+        # it's a DNI
+        "0019-0#{user}"
+      else
+        user
+      end 
+    end
 
     def login
       puts 'BBVA::API login'.yellow if @debug
