@@ -56,6 +56,19 @@ Or your transactions (you must pass the range of dates)
 @api.get_transactions(start_date: (Date.today - 24.months), end_date: Date.today)
 ```
 
+## Debugging
+If you are finding troubles you can enable the debug mode to get some detailed output.
+
+If you are using the command line tool:
+
+    $ bbva transactions --user YOUR_BBVA_USER --password YOUR_BBVA_PASSWORD --debug
+
+If you are using the Ruby API:
+
+```ruby
+@api = BBVA::API.new(YOUR_BBVA_USER, YOUR_BBVA_PASSWORD, debug: true)
+```
+
 ## Contributing
 
 1. Fork it
