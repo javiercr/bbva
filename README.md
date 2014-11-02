@@ -4,7 +4,7 @@ Ruby gem with command line tool for retrieving BBVA bank accounts balance and tr
 
 It uses the same API that the offical BBVA mobile app uses. Requieres the same user and password that are used for accessing http://bbva.es
 
-# Important note
+# Important note
 The code in this gem is being ported to [bank_scrap](https://github.com/ismaGNU/bank_scrap), a new more ambitious gem that will support multiple banks, including BBVA. The port in bank_scrap uses the new API from the latest version of BBVA's mobile app. This gem won't be mantained any longer.
 
 ## Motivation
